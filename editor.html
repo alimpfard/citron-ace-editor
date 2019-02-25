@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+  </style>
+</head>
+<body>
+
+<pre id="editor">var test is 123.
+</pre>
+
+<script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    function getText(url){
+    // read text from URL location
+    var request = new XMLHttpRequest();
+    request.open('GET', url, false);
+    request.send(null);
+    if (request.readyState === 4 && request.status === 200) {
+        var type = request.getResponseHeader('Content-Type');
+        if (type.indexOf("text") !== 1) {
+            return request.responseText;
+        }
+    } else return null;
+}
+    var options = {
+        mode: 'ace/mode/citron',
+        theme: 'ace/theme/monokai',
+    };
+    var foptions = {
+        file: undefined,
+    }
+    try {
+        window.location.toString().split('?')[1].split('&').forEach(e => ((a,b) => {if (a in options) options[a] = b; else foptions[a] = b;}).call(null, ...e.split('=')));
+    } catch(e) {
+        console.warn(e);
+    }
+    if (foptions.file) {
+        text = getText(foptions.file);
+        if (text !== null) {
+            document.getElementById('editor').innerText = text.replace(/\n/,'\r\n');
+            console.log(text);
+        } else {
+            alert(`File ${foptions.file} failed to load`);
+        }
+    }
+</script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setOptions(options);
+</script>
+
+</body>
+</html>
