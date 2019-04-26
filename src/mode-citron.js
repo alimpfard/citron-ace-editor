@@ -11,11 +11,24 @@ var CitronHighlightRules = function() {
             include: "#main"
         }],
         "#main": [{
+            token: "markup.deleted.Citron",
+            regex: /@comptime\b/,
+            push: [{
+                token: "entity.name.Citron",
+                regex: /\s*/,
+                next: "pop"
+            }, {
+                defaultToken: "entity.name.Citron"
+            }]
+        }, {
             token: "keyword.other.unit.Citron",
             regex: /\b(?:var|my|const|frozen)\b/,
             push: [{
-                token: "variable.Citron",
-                regex: /[^\s\d\x003a.\x002c\[\]\(\)\{\}\#][^\s\x003a.\x002c\[\]\(\)\{\}\#]*/,
+                token: [
+                    "constant.character.escape.Citron",
+                    "variable.Citron"
+                ],
+                regex: /((?:&&|&)?)([^\s\d\x003a.\x002c\[\]\(\)\{\}\#][^\s\x003a.\x002c\[\]\(\)\{\}\#]*)/,
                 next: "pop"
             }, {
                 defaultToken: "variable.Citron"
@@ -31,7 +44,7 @@ var CitronHighlightRules = function() {
                 regex: /\}/,
                 next: "pop"
             }, {
-                include: "#main__2"
+                include: "#main__3"
             }]
         }, {
             token: "constant.character.escape.Citron",
@@ -57,7 +70,7 @@ var CitronHighlightRules = function() {
                 regex: /<\?/,
                 next: "pop"
             }, {
-                include: "#main__3"
+                include: "#main__4"
             }]
         }, {
             token: "constant.numeric.Citron",
@@ -99,7 +112,7 @@ var CitronHighlightRules = function() {
                 regex: /\}/,
                 next: "pop"
             }, {
-                include: "#main__5"
+                include: "#main__6"
             }]
         }, {
             token: [
@@ -430,16 +443,18 @@ var CitronHighlightRules = function() {
         "#main__10": [],
         "#main__11": [],
         "#main__12": [],
-        "#main__2": [{
+        "#main__13": [],
+        "#main__2": [],
+        "#main__3": [{
             token: "text.Citron",
             regex: /./
         }],
-        "#main__3": [{
+        "#main__4": [{
             token: "string.regexp.Citron",
             regex: /./
         }],
-        "#main__4": [],
-        "#main__5": [{
+        "#main__5": [],
+        "#main__6": [{
             token: [],
             regex: /\s*/,
             push: [{
@@ -450,7 +465,6 @@ var CitronHighlightRules = function() {
                 include: "#asm"
             }]
         }],
-        "#main__6": [],
         "#main__7": [],
         "#main__8": [],
         "#main__9": [],
